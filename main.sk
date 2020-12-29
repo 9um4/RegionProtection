@@ -1,0 +1,1796 @@
+# 몹스폰 / 폭발 / PVP / 발사체 / 포션 / 블록 설치 / 파괴
+
+# 상수 선언
+options:
+	prefix: &7[&bServer&7]&f
+	version: &ev&a1.0&f
+
+on load:
+	send "{@prefix} Region Protection Skript {@version} by sweetenpotato enabled" to the console
+
+on leftclick with a wooden axe:
+	if {region::%uuid of player%::select} is "true":
+		cancel event
+		set {region::%uuid of player%::pos1} to event-location
+		message "pos1 : %{region::%uuid of player%::pos1}%"
+
+on rightclick with a wooden axe:
+	if {region::%uuid of player%::select} is "true":
+		cancel event
+		set {region::%uuid of player%::pos2} to event-location
+		message "pos2 : %{region::%uuid of player%::pos2}%"
+
+# 몹 스폰 방지
+command /global [<text>] [<text>] [<text>] [<text>]:
+	trigger:
+		if player is op:
+			if arg-1 is "spawn":
+				if arg-2 is "bat":
+					if arg-3 is "true":
+						set {global::spawn::bat} to "true"
+						message "{@prefix} 박쥐의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::bat} to "false"
+						message "{@prefix} 박쥐의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 박쥐의 생성이 %{global::spawn::bat}%로 설정되어 있습니다."
+
+				else if arg-2 is "blaze":
+					if arg-3 is "true":
+						set {global::spawn::blaze} to "true"
+						message "{@prefix} 블레이즈의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::blaze} to "false"
+						message "{@prefix} 블레이즈의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 블레이즈의 생성이 %{global::spawn::blaze}%로 설정되어 있습니다."
+
+				else if arg-2 is "cave_spider":
+					if arg-3 is "true":
+						set {global::spawn::cave_spider} to "true"
+						message "{@prefix} 동굴 거미의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::cave_spider} to "false"
+						message "{@prefix} 동굴 거미의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 동굴 거미의 생성이 %{global::spawn::cave_spider}%로 설정되어 있습니다."
+
+				else if arg-2 is "chicken":
+					if arg-3 is "true":
+						set {global::spawn::chicken} to "true"
+						message "{@prefix} 닭의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::chicken} to "false"
+						message "{@prefix} 닭의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 닭의 생성이 %{global::spawn::chicken}%로 설정되어 있습니다."
+
+				else if arg-2 is "cod":
+					if arg-3 is "true":
+						set {global::spawn::cod} to "true"
+						message "{@prefix} 대구의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::cod} to "false"
+						message "{@prefix} 대구의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 대구의 생성이 %{global::spawn::cod}%로 설정되어 있습니다."
+
+				else if arg-2 is "cow":
+					if arg-3 is "true":
+						set {global::spawn::cow} to "true"
+						message "{@prefix} 소의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::cow} to "false"
+						message "{@prefix} 소의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 소의 생성이 %{global::spawn::cow}%로 설정되어 있습니다."
+
+				else if arg-2 is "creeper":
+					if arg-3 is "true":
+						set {global::spawn::creeper} to "true"
+						message "{@prefix} 크리퍼의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::creeper} to "false"
+						message "{@prefix} 크리퍼의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 크리퍼의 생성이 %{global::spawn::creeper}%로 설정되어 있습니다."
+
+				else if arg-2 is "dolphin":
+					if arg-3 is "true":
+						set {global::spawn::dolphin} to "true"
+						message "{@prefix} 돌고래의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::dolphin} to "false"
+						message "{@prefix} 돌고래의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 돌고래의 생성이 %{global::spawn::dolphin}%로 설정되어 있습니다."
+
+				else if arg-2 is "donkey":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 당나귀의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 당나귀의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 당나귀의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "drowned":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 드라운드의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 드라운드의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 드라운드의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "elder_guardian":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 엘더 가디언의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 엘더 가디언의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 엘더 가디언의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "enderman":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 엔더맨의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 엔더맨의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 엔더맨의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "endermite":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 엔더마이트의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 엔더마이트의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 엔더마이트의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "evoker":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 소환사의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 소환사의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 소환사의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "ghast":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 가스트의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 가스트의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 가스트의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "guardian":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 가디언의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 가디언의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 가디언의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "horse":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 말의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 말의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 말의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "husk":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 허스크의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 허스크의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 허스크의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "llama":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 라마의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 라마의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 라마의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "magma_cube":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 마크마 큐브의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 마그마 큐브의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 마크마의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "mooshroom":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 무시룸의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 무시룸의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 무시룸의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "mule":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 노새의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 노새의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 노새의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "ocelot":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 오셀롯의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 오셀롯의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 오셀롯의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "parrot":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 앵무새의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 앵무새의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 앵무새의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "phantom":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 팬텀의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 팬텀의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 팬텀의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "pig":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 돼지의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 돼지의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 돼지의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "polar_bear":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 북극곰의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 북극곰의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 북극곰의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "pufferfish":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 복어의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 복어의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 복어의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "rabbit":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 토끼의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 토끼의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 토끼의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "salmon":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 연어의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 연어의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 연어의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "sheep":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 양의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 양의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 양의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "shulker":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 셜커의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 셜커의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 셜커의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "silverfish":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 좀벌레의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 좀벌레의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 좀벌레의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "skeleton":
+					if arg-3 is "true":
+						set {global::spawn::skeleton} to "true"
+						message "{@prefix} 스켈레톤의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::skeleton} to "false"
+						message "{@prefix} 스켈레톤의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 스켈레톤의 생성이 %{global::spawn::skeleton}%로 설정되어 있습니다."
+
+				else if arg-2 is "skeleton_horse":
+					if arg-3 is "true":
+						set {global::spawn::skeleton_horse} to "true"
+						message "{@prefix} 스켈레톤 말의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::skeleton_horse} to "false"
+						message "{@prefix} 스켈레톤 말의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 스켈레톤 말의 생성이 %{global::spawn::skeleton_horse}%로 설정되어 있습니다."
+
+				else if arg-2 is "slime":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 슬라임의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 슬라임의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 슬라임의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "spider":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 거미의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 거미의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 거미의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "squid":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 오징어의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 오징어의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 오징어의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "stray":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 스트레이의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 스트레이의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 스트레이의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "tropical_fish":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 열대어의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 열대어의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 열대어의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "turtle":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 거북의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 거북의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 거북의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "vex":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 벡스의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 벡스의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 벡스의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "villager":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 주민의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 주민의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 주민의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "vindicator":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 변명자의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 변명자의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 변명자의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "witch":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 마녀의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 마녀의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 마녀의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "wither_skeleton":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 위더 스켈레톤의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 위더 스켈레톤의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 위더 스켈레톤의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "wolf":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 늑대의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 늑대의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 늑대의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "zombie":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 좀비의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 좀비의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 좀비의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "zombie_horse":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 좀비 말의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 좀비 말의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 좀비 말의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "zombie_pigman":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 좀비 피그맨의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 좀비 피그맨의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 좀비 피그맨의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "zombie_villager":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 좀비 주민의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 좀비 주민의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 좀비 주민의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "ender_dragon":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 엔더 드래곤의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 엔더 드래곤의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 엔더 드래곤의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else if arg-2 is "wither":
+					if arg-3 is "true":
+						set {global::spawn::%arg-2%} to "true"
+						message "{@prefix} 위더의 생성을 허용합니다."
+					else if arg-3 is "false":
+						set {global::spawn::%arg-2%} to "false"
+						message "{@prefix} 위더의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 위더의 생성이 %{global::spawn::%arg-2%}%로 설정되어 있습니다."
+
+				else:
+					message "{@prefix} 적절한 엔티티의 이름을 입력해 주세요."
+
+			else if arg-1 is "explode":
+				if arg-2 is "TNT":
+					if arg-3 is "true":
+						message "{@prefix} TNT의 폭발로 인한 지형의 파괴를 허용합니다."
+						set {global::explode::TNT} to "true"
+						stop
+					else if arg-3 is "false":
+						message "{@prefix} TNT의 폭발로 인한 지형의 파괴를 방지합니다."
+						set {global::explode::TNT} to "false"
+						stop
+					else:
+						message "{@prefix} 현재 TNT 폭발로 인한 지형의 파괴는 %{global::explode::TNT}%로 설정되어 있습니다."
+
+				else if arg-2 is "fire_charge":
+					if arg-3 is "true":
+						message "{@prefix} 화염구의 폭발로 인한 지형의 파괴를 허용합니다."
+						set {global::explode::fire_charge} to "true"
+						stop
+					else if arg-3 is "false":
+						message "{@prefix} 화염구의 폭발로 인한 지형의 파괴를 방지합니다."
+						set {global::explode::fire_charge} to "false"
+						stop
+					else:
+						message "{@prefix} 현재 화염구의 폭발로 인한 지형의 파괴는 %{global::explode::fire_charge}%로 설정되어 있습니다."
+
+				else if arg-2 is "end_crystal":
+					if arg-3 is "true":
+						message "{@prefix} 엔드 수정의 폭발로 인한 지형의 파괴를 허용합니다."
+						set {global::explode::end_crystal} to "true"
+						stop
+					else if arg-3 is "false":
+						message "{@prefix} 엔드 수정의 폭발로 인한 지형의 파괴를 방지합니다."
+						set {global::explode::end_crystal} to "false"
+						stop
+					else:
+						message "{@prefix} 현재 엔드 수정의 폭발로 인한 지형의 파괴는 %{global::explode::end_crystal}%로 설정되어 있습니다."
+
+				else if arg-2 is "bed":
+					if arg-3 is "true":
+						message "{@prefix} 침대의 폭발로 인한 지형의 파괴를 허용합니다."
+						set {global::explode::bed} to "true"
+						stop
+					else if arg-3 is "false":
+						message "{@prefix} 침대의 폭발로 인한 지형의 파괴를 방지합니다."
+						set {global::explode::bed} to "false"
+						stop
+					else:
+						message "{@prefix} 현재 침대의 폭발로 인한 지형의 파괴는 %{global::explode::bed}%로 설정되어 있습니다."
+
+				else if arg-2 is "creeper":
+					if arg-3 is "true":
+						message "{@prefix} 크리퍼의 폭발로 인한 지형의 파괴를 허용합니다."
+						set {global::explode::creeper} to "true"
+						stop
+					else if arg-3 is "false":
+						message "{@prefix} 크리퍼의 폭발로 인한 지형의 파괴를 방지합니다."
+						set {global::explode::creeper} to "false"
+						stop
+					else:
+						message "{@prefix} 현재 크리퍼의 폭발로 인한 지형의 파괴는 %{global::explode::creeper}%로 설정되어 있습니다."
+
+				else if arg-2 is "wither_skull":
+					if arg-3 is "true":
+						message "{@prefix} 위더 머리의 폭발로 인한 지형의 파괴를 허용합니다."
+						set {global::explode::wither_skull} to "true"
+						stop
+					else if arg-3 is "false":
+						message "{@prefix} 위더 머리의 폭발로 인한 지형의 파괴를 방지합니다."
+						set {global::explode::wither_skull} to "false"
+						stop
+					else:
+						message "{@prefix} 현재 위더 머리의 폭발로 인한 지형의 파괴는 %{global::explode::wither_skull}%로 설정되어 있습니다."
+
+				else:
+					message "{@prefix} 알 수 없는 엔티티입니다."
+
+			else if arg-1 is "damage":
+				if arg-2 is "TNT":
+					if arg-3 is "true":
+						message "{@prefix} TNT의 폭발로 인한 피격을 허용합니다."
+						set {global::damage::TNT} to "true"
+						stop
+					else if arg-3 is "false":
+						message "{@prefix} TNT의 폭발로 인한 피격을 방지합니다."
+						set {global::damage::TNT} to "false"
+						stop
+					else:
+						message "{@prefix} 현재 TNT 폭발로 인한 피격은 %{global::damage::TNT}%로 설정되어 있습니다."
+
+				else if arg-2 is "fire_charge":
+					if arg-3 is "true":
+						message "{@prefix} 화염구의 폭발로 인한 피격을 허용합니다."
+						set {global::damage::fire_charge} to "true"
+						stop
+					else if arg-3 is "false":
+						message "{@prefix} 화염구의 폭발로 인한 피격을 방지합니다."
+						set {global::damage::fire_charge} to "false"
+						stop
+					else:
+						message "{@prefix} 현재 화염구의 폭발로 인한 피격은 %{global::damage::fire_charge}%로 설정되어 있습니다."
+
+				else if arg-2 is "end_crystal":
+					if arg-3 is "true":
+						message "{@prefix} 엔드 수정의 폭발로 인한 피격을 허용합니다."
+						set {global::damage::end_crystal} to "true"
+						stop
+					else if arg-3 is "false":
+						message "{@prefix} 엔드 수정의 폭발로 인한 피격을 방지합니다."
+						set {global::damage::end_crystal} to "false"
+						stop
+					else:
+						message "{@prefix} 현재 엔드 수정의 폭발로 인한 피격은 %{global::damage::end_crystal}%로 설정되어 있습니다."
+
+				else if arg-2 is "bed":
+					if arg-3 is "true":
+						message "{@prefix} 침대의 폭발로 인한 피격을 허용합니다."
+						set {global::damage::bed} to "true"
+						stop
+					else if arg-3 is "false":
+						message "{@prefix} 침대의 폭발로 인한 피격을 방지합니다."
+						set {global::damage::bed} to "false"
+						stop
+					else:
+						message "{@prefix} 현재 침대의 폭발로 인한 피격은 %{global::damage::bed}%로 설정되어 있습니다."
+
+				else if arg-2 is "creeper":
+					if arg-3 is "true":
+						message "{@prefix} 크리퍼의 폭발로 인한 피격을 허용합니다."
+						set {global::damage::creeper} to "true"
+						stop
+					else if arg-3 is "false":
+						message "{@prefix} 크리퍼의 폭발로 인한 피격을 방지합니다."
+						set {global::damage::creeper} to "false"
+						stop
+					else:
+						message "{@prefix} 현재 크리퍼의 폭발로 인한 피격은 %{global::damage::creeper}%로 설정되어 있습니다."
+
+				else if arg-2 is "wither_skull":
+					if arg-3 is "true":
+						message "{@prefix} 위더 머리의 폭발로 인한 피격을 허용합니다."
+						set {global::damage::wither_skull} to "true"
+						stop
+					else if arg-3 is "false":
+						message "{@prefix} 위더 머리의 폭발로 인한 피격을 방지합니다."
+						set {global::damage::wither_skull} to "false"
+						stop
+					else:
+						message "{@prefix} 현재 위더 머리의 폭발로 인한 피격은 %{global::damage::wither_skull}%로 설정되어 있습니다."
+
+				else:
+					message "{@prefix} 알 수 없는 엔티티입니다."
+
+			else if arg-1 is "pvp":
+				if arg-2 is "true":
+					message "{@prefix} 플레이어 간의 공격을 허용합니다."
+					set {global::pvp} to "true"
+					stop
+				else if arg-2 is "false":
+					message "{@prefix} 플레이어 간의 공격을 방지합니다."
+					set {global::pvp} to "false"
+					stop
+				else:
+					message "{@prefix} 플레이어 간의 공격은 현재 %{global::pvp}% 상태입니다."
+
+			else if arg-1 is "shoot":
+				if arg-2 is "arrow":
+					if arg-3 is "false":
+						message "{@prefix} 활 쏘는 것을 막습니다."
+						set {global::shoot::arrow} to "false"
+						stop
+					else if arg-3 is "true":
+						message "{@prefix} 활 쏘는 것을 허용합니다."
+						set {global::shoot::arrow} to "true"
+						stop
+					else:
+						message "{@prefix} 현재 활 쏘는 것에 대한 설정은 %{global::shoot::arrow}%입니다."
+
+				else if arg-2 is "fire_charge":
+					if arg-3 is "false":
+						message "{@prefix} 화염구를 던지는 것을 막습니다."
+						set {global::shoot::fire_charge} to "false"
+						stop
+					else if arg-3 is "true":
+						message "{@prefix} 화염구를 던지는 것을 허용합니다"
+						set {global::shoot::fire_charge} to "true"
+						stop
+					else:
+						message "{@prefix} 현재 화염구를 던지는 것에 대한 설정은 %{global::shoot::fire_charge}%입니다."
+
+				else if arg-2 is "snowball":
+					if arg-3 is "false":
+						message "{@prefix} 눈덩이의 투척을 방지합니다."
+						set {global::shoot::snowball} to "false"
+						stop
+					else if arg-3 is "true":
+						message "{@prefix} 눈덩이의 투척을 허용합니다."
+						set {global::shoot::snowball} to "true"
+						stop
+					else:
+						message "{@prefix} 현재 눈덩이를 던지는 것에 대한 설정은 %{global::shoot::snowball}%입니다."
+
+				else if arg-2 is "splash_potion":
+					if arg-3 is "false":
+						message "{@prefix} 투척용 물약의 사용을 방지합니다."
+						set {global::shoot::splash_potion} to "false"
+						stop
+					else if arg-3 is "true":
+						message "{@prefix} 투척용 물약의 사용을 허용합니다."
+						set {global::shoot::splash_potion} to "true"
+						stop
+					else:
+						message "{@prefix} 현재 투척용 물약의 사용에 대한 설정은 %{global::shoot::splash_potion}%입니다."
+
+				else if arg-2 is "lingering_potion":
+					if arg-3 is "false":
+						message "{@prefix} 잔류형 물약의 사용을 방지합니다."
+						set {global::shoot::lingering_potion} to "false"
+						stop
+					else if arg-3 is "true":
+						message "{@prefix} 잔류형 물약의 사용을 허용합니다."
+						set {global::shoot::lingering_potion} to "true"
+						stop
+					else:
+						message "{@prefix} 현재 잔류형 물약의 사용에 대한 설정은 %{global::shoot::lingering_potion}%입니다."
+
+command /region [<text>] [<text>] [<text>] [<text>]:
+	trigger:
+		if arg-1 is "tool":
+			message "{@prefix} 영역을 선택하는 도끼가 지급되었습니다."
+			give 1 wooden axe to player
+			stop
+
+		else if arg-1 is "list":
+			if {region::name::*} is not set:
+				message "{@prefix} 선정된 구역이 없습니다."
+				stop
+			else:
+				message "{@prefix} %{region::name::*}%"
+				stop
+
+		else if arg-1 is "delete":
+			if arg-2 is not set:
+				message "{@prefix} 영역 이름을 적어주세요!"
+				stop
+
+			else if {region::name::*} contains arg-2:
+				set {_delete} to 0
+				loop {region::name::*}:
+					if loop-value is arg-2:
+						set {_delete} to loop-index
+				clear {region::name::%{_delete}%}
+				clear {region::x1::%{_delete}%}
+				clear {region::x2::%{_delete}%}
+				clear {region::y1::%{_delete}%}
+				clear {region::y2::%{_delete}%}
+				clear {region::z1::%{_delete}%}
+				clear {region::z2::%{_delete}%}
+				clear {region::world::%{_delete}%}
+				message "{@prefix} 해당 영역이 삭제되었습니다."
+				stop
+
+			else:
+				message "{@prefix} 해당 영역이 존재하지 않습니다!"
+				stop
+
+		else if arg-1 is "create":
+			if arg-2 is not set:
+				message "{@prefix} 구역의 이름을 선택해 주세요."
+				stop
+
+			else if {region::%uuid of player%::pos1} is not set:
+				message "{@prefix} 첫번째 지점이 선택되지 않았습니다."
+				stop
+
+			else if {region::%uuid of player%::pos2} is not set:
+				message "{@prefix} 두번째 지점이 선택되지 않았습니다."
+				stop
+
+			else if {region::*} contains arg-2:
+				message "{@prefix} 이미 존재하는 영역입니다."
+				stop
+
+			else:
+				set {_x1} to x coord of {region::%uuid of player%::pos1}
+				set {_x2} to x coord of {region::%uuid of player%::pos2}
+				set {_y1} to y coord of {region::%uuid of player%::pos1}
+				set {_y2} to y coord of {region::%uuid of player%::pos2}
+				set {_z1} to z coord of {region::%uuid of player%::pos1}
+				set {_z2} to z coord of {region::%uuid of player%::pos2}
+				set {_world} to world of {region::%uuid of player%::pos1}
+
+				if {_x1} >= {_x2}:
+					set {_dummy} to {_x1}
+					set {_x1} to {_x2}
+					set {_x2} to {_dummy}
+
+				if {_y1} >= {_y2}:
+					set {_dummy} to {_y1}
+					set {_y1} to {_y2}
+					set {_y2} to {_dummy}
+
+				if {_z1} >= {_z2}:
+					set {_dummy} to {_z1}
+					set {_z1} to {_z2}
+					set {_z2} to {_dummy}
+
+				if {region::x1::*} contains {_x1}:
+					if {region::x2::*} contains {_x2}:
+						if {region::y1::*} contains {_y1}:
+							if {region::y2::*} contains {_y2}:
+								if {region::z1::*} contains {_z1}:
+									if {region::z2::*} contains {_z2}:
+										message "{@prefix} 이미 존재하는 영역입니다."
+										stop
+
+				add {_x1} to {region::x1::*}
+				add {_x2} to {region::x2::*}
+				add {_y1} to {region::y1::*}
+				add {_y2} to {region::y2::*}
+				add {_z1} to {region::z1::*}
+				add {_z2} to {region::z2::*}
+				add {_world} to {region::world::*}
+				add arg-2 to {region::name::*}
+
+				message "{@prefix} %arg-2%가 저장되었습니다."
+
+		else if arg-1 is "selection":
+			if arg-2 is "enable":
+				set {region::%uuid of player%::select} to "true"
+				message "{@prefix} 영역 설정이 활성화 되었습니다."
+			else if arg-2 is "disable":
+				set {region::%uuid of player%::select} to "false"
+				message "{@prefix} 영역 설정이 비활성화 되었습니다."
+			else:
+				message "{@prefix} 현재 영역 설정은 %{region::%uuid of player%::select}%입니다."
+
+		else if arg-1 is "here":
+			set {_world} to player's world
+			set {_loc} to player's location
+			set {_index} to findregion({_world}, {_loc})
+			if {_index} is not "-1":
+				message "{@prefix} 현재 구역의 이름은 %{region::name::%{_index}%}%입니다."
+			else:
+				message "{@prefix} 현재 정해진 구역에 있지 않습니다."
+
+		else if arg-1 is "info":
+			if {region::name::*} contains arg-2:
+				set {_index} to 0
+				loop {region::name::*}:
+					if arg-2 is loop-value:
+						set {_index} to loop-index
+				message "{@prefix} 영역 이름 : %{region::name::%{_index}%}%, 영역 id : %{_index}%"
+				message "{@prefix} 영역 : (%{region::x1::%{_index}%}%, %{region::y1::%{_index}%}%, %{region::z1::%{_index}%}%), (%{region::x2::%{_index}%}%, %{region::y2::%{_index}%}%, %{region::z2::%{_index}%}%), in %{region::world::%{_index}%}%"
+
+		else if arg-1 is "reset":
+			clear {region::*}
+
+		else if {region::name::%arg-1%} is set:
+			if arg-2 is "spawn":
+				if arg-3 is "bat":
+					if arg-4 is "true":
+						set {region::spawn::bat::%arg-1%} to "true"
+						message "{@prefix} 박쥐의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::bat::%arg-1%} to "false"
+						message "{@prefix} 박쥐의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 박쥐의 생성이 %{region::spawn::bat}%로 설정되어 있습니다."
+
+				else if arg-3 is "blaze":
+					if arg-4 is "true":
+						set {region::spawn::blaze::%arg-1%} to "true"
+						message "{@prefix} 블레이즈의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::blaze::%arg-1%} to "false"
+						message "{@prefix} 블레이즈의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 블레이즈의 생성이 %{region::spawn::blaze}%로 설정되어 있습니다."
+
+				else if arg-3 is "cave_spider":
+					if arg-4 is "true":
+						set {region::spawn::cave_spider::%arg-1%} to "true"
+						message "{@prefix} 동굴 거미의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::cave_spider::%arg-1%} to "false"
+						message "{@prefix} 동굴 거미의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 동굴 거미의 생성이 %{region::spawn::cave_spider::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "chicken":
+					if arg-4 is "true":
+						set {region::spawn::chicken::%arg-1%} to "true"
+						message "{@prefix} 닭의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::chicken::%arg-1%} to "false"
+						message "{@prefix} 닭의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 닭의 생성이 %{region::spawn::chicken::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "cod":
+					if arg-4 is "true":
+						set {region::spawn::cod::%arg-1%} to "true"
+						message "{@prefix} 대구의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::cod::%arg-1%} to "false"
+						message "{@prefix} 대구의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 대구의 생성이 %{region::spawn::cod::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "cow":
+					if arg-4 is "true":
+						set {region::spawn::cow::%arg-1%} to "true"
+						message "{@prefix} 소의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::cow::%arg-1%} to "false"
+						message "{@prefix} 소의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 소의 생성이 %{region::spawn::cow::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "creeper":
+					if arg-4 is "true":
+						set {region::spawn::creeper::%arg-1%} to "true"
+						message "{@prefix} 크리퍼의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::creeper::%arg-1%} to "false"
+						message "{@prefix} 크리퍼의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 크리퍼의 생성이 %{region::spawn::creeper::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "dolphin":
+					if arg-4 is "true":
+						set {region::spawn::dolphin::%arg-1%} to "true"
+						message "{@prefix} 돌고래의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::dolphin::%arg-1%} to "false"
+						message "{@prefix} 돌고래의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 돌고래의 생성이 %{region::spawn::dolphin::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "donkey":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 당나귀의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 당나귀의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 당나귀의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "drowned":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 드라운드의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 드라운드의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 드라운드의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "elder_guardian":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 엘더 가디언의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 엘더 가디언의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 엘더 가디언의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "enderman":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 엔더맨의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 엔더맨의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 엔더맨의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "endermite":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 엔더마이트의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 엔더마이트의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 엔더마이트의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "evoker":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 소환사의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 소환사의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 소환사의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "ghast":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 가스트의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 가스트의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 가스트의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "guardian":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 가디언의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 가디언의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 가디언의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "horse":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 말의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 말의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 말의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "husk":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 허스크의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 허스크의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 허스크의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "llama":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 라마의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 라마의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 라마의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "magma_cube":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 마크마 큐브의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 마그마 큐브의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 마크마의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "mooshroom":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 무시룸의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 무시룸의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 무시룸의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "mule":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 노새의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 노새의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 노새의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "ocelot":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 오셀롯의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 오셀롯의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 오셀롯의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "parrot":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 앵무새의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 앵무새의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 앵무새의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "phantom":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 팬텀의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 팬텀의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 팬텀의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "pig":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 돼지의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 돼지의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 돼지의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "polar_bear":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 북극곰의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 북극곰의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 북극곰의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "pufferfish":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 복어의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 복어의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 복어의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "rabbit":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 토끼의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 토끼의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 토끼의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "salmon":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 연어의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 연어의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 연어의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "sheep":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 양의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 양의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 양의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "shulker":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 셜커의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 셜커의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 셜커의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "silverfish":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 좀벌레의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 좀벌레의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 좀벌레의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "skeleton":
+					if arg-4 is "true":
+						set {region::spawn::skeleton::%arg-1%} to "true"
+						message "{@prefix} 스켈레톤의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::skeleton::%arg-1%} to "false"
+						message "{@prefix} 스켈레톤의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 스켈레톤의 생성이 %{region::spawn::skeleton::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "skeleton_horse":
+					if arg-4 is "true":
+						set {region::spawn::skeleton_horse::%arg-1%} to "true"
+						message "{@prefix} 스켈레톤 말의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::skeleton_horse::%arg-1%} to "false"
+						message "{@prefix} 스켈레톤 말의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 스켈레톤 말의 생성이 %{region::spawn::skeleton_horse::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "slime":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 슬라임의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 슬라임의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 슬라임의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "spider":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 거미의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 거미의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 거미의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "squid":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 오징어의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 오징어의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 오징어의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "stray":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 스트레이의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 스트레이의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 스트레이의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "tropical_fish":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 열대어의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 열대어의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 열대어의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "turtle":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 거북의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 거북의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 거북의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "vex":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 벡스의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 벡스의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 벡스의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "villager":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 주민의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 주민의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 주민의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "vindicator":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 변명자의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 변명자의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 변명자의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "witch":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 마녀의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 마녀의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 마녀의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "wither_skeleton":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 위더 스켈레톤의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 위더 스켈레톤의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 위더 스켈레톤의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "wolf":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 늑대의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 늑대의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 늑대의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "zombie":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 좀비의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 좀비의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 좀비의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "zombie_horse":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 좀비 말의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 좀비 말의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 좀비 말의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "zombie_pigman":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 좀비 피그맨의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 좀비 피그맨의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 좀비 피그맨의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "zombie_villager":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 좀비 주민의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 좀비 주민의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 좀비 주민의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "ender_dragon":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 엔더 드래곤의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 엔더 드래곤의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 엔더 드래곤의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "wither":
+					if arg-4 is "true":
+						set {region::spawn::%arg-3%::%arg-1%} to "true"
+						message "{@prefix} 위더의 생성을 허용합니다."
+					else if arg-4 is "false":
+						set {region::spawn::%arg-3%::%arg-1%} to "false"
+						message "{@prefix} 위더의 생성을 막습니다."
+					else:
+						message "{@prefix} 현재 위더의 생성이 %{region::spawn::%arg-3%::%arg-1%}%로 설정되어 있습니다."
+
+				else:
+					message "{@prefix} 적절한 엔티티의 이름을 입력해 주세요."
+
+			else if arg-1 is "explode":
+				if arg-3 is "TNT":
+					if arg-4 is "true":
+						message "{@prefix} TNT의 폭발로 인한 지형의 파괴를 허용합니다."
+						set {region::explode::TNT::%arg-1%} to "true"
+						stop
+					else if arg-4 is "false":
+						message "{@prefix} TNT의 폭발로 인한 지형의 파괴를 방지합니다."
+						set {region::explode::TNT::%arg-1%} to "false"
+						stop
+					else:
+						message "{@prefix} 현재 TNT 폭발로 인한 지형의 파괴는 %{region::explode::TNT::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "fire_charge":
+					if arg-4 is "true":
+						message "{@prefix} 화염구의 폭발로 인한 지형의 파괴를 허용합니다."
+						set {region::explode::fire_charge::%arg-1%} to "true"
+						stop
+					else if arg-4 is "false":
+						message "{@prefix} 화염구의 폭발로 인한 지형의 파괴를 방지합니다."
+						set {region::explode::fire_charge::%arg-1%} to "false"
+						stop
+					else:
+						message "{@prefix} 현재 화염구의 폭발로 인한 지형의 파괴는 %{region::explode::fire_charge::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "end_crystal":
+					if arg-4 is "true":
+						message "{@prefix} 엔드 수정의 폭발로 인한 지형의 파괴를 허용합니다."
+						set {region::explode::end_crystal::%arg-1%} to "true"
+						stop
+					else if arg-4 is "false":
+						message "{@prefix} 엔드 수정의 폭발로 인한 지형의 파괴를 방지합니다."
+						set {region::explode::end_crystal::%arg-1%} to "false"
+						stop
+					else:
+						message "{@prefix} 현재 엔드 수정의 폭발로 인한 지형의 파괴는 %{region::explode::end_crystal::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "bed":
+					if arg-4 is "true":
+						message "{@prefix} 침대의 폭발로 인한 지형의 파괴를 허용합니다."
+						set {region::explode::bed::%arg-1%} to "true"
+						stop
+					else if arg-4 is "false":
+						message "{@prefix} 침대의 폭발로 인한 지형의 파괴를 방지합니다."
+						set {region::explode::bed::%arg-1%} to "false"
+						stop
+					else:
+						message "{@prefix} 현재 침대의 폭발로 인한 지형의 파괴는 %{region::explode::bed::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "creeper":
+					if arg-4 is "true":
+						message "{@prefix} 크리퍼의 폭발로 인한 지형의 파괴를 허용합니다."
+						set {region::explode::creeper::%arg-1%} to "true"
+						stop
+					else if arg-4 is "false":
+						message "{@prefix} 크리퍼의 폭발로 인한 지형의 파괴를 방지합니다."
+						set {region::explode::creeper::%arg-1%} to "false"
+						stop
+					else:
+						message "{@prefix} 현재 크리퍼의 폭발로 인한 지형의 파괴는 %{region::explode::creeper::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "wither_skull":
+					if arg-4 is "true":
+						message "{@prefix} 위더 머리의 폭발로 인한 지형의 파괴를 허용합니다."
+						set {region::explode::wither_skull::%arg-1%} to "true"
+						stop
+					else if arg-4 is "false":
+						message "{@prefix} 위더 머리의 폭발로 인한 지형의 파괴를 방지합니다."
+						set {region::explode::wither_skull::%arg-1%} to "false"
+						stop
+					else:
+						message "{@prefix} 현재 위더 머리의 폭발로 인한 지형의 파괴는 %{region::explode::wither_skull::%arg-1%}%로 설정되어 있습니다."
+
+				else:
+					message "{@prefix} 알 수 없는 엔티티입니다."
+
+			else if arg-1 is "damage":
+				if arg-3 is "TNT":
+					if arg-4 is "true":
+						message "{@prefix} TNT의 폭발로 인한 피격을 허용합니다."
+						set {region::damage::TNT::%arg-1%} to "true"
+						stop
+					else if arg-4 is "false":
+						message "{@prefix} TNT의 폭발로 인한 피격을 방지합니다."
+						set {region::damage::TNT::%arg-1%} to "false"
+						stop
+					else:
+						message "{@prefix} 현재 TNT 폭발로 인한 피격은 %{region::damage::TNT::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "fire_charge":
+					if arg-4 is "true":
+						message "{@prefix} 화염구의 폭발로 인한 피격을 허용합니다."
+						set {region::damage::fire_charge::%arg-1%} to "true"
+						stop
+					else if arg-4 is "false":
+						message "{@prefix} 화염구의 폭발로 인한 피격을 방지합니다."
+						set {region::damage::fire_charge::%arg-1%} to "false"
+						stop
+					else:
+						message "{@prefix} 현재 화염구의 폭발로 인한 피격은 %{region::damage::fire_charge::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "end_crystal":
+					if arg-4 is "true":
+						message "{@prefix} 엔드 수정의 폭발로 인한 피격을 허용합니다."
+						set {region::damage::end_crystal::%arg-1%} to "true"
+						stop
+					else if arg-4 is "false":
+						message "{@prefix} 엔드 수정의 폭발로 인한 피격을 방지합니다."
+						set {region::damage::end_crystal::%arg-1%} to "false"
+						stop
+					else:
+						message "{@prefix} 현재 엔드 수정의 폭발로 인한 피격은 %{region::damage::end_crystal::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "bed":
+					if arg-4 is "true":
+						message "{@prefix} 침대의 폭발로 인한 피격을 허용합니다."
+						set {region::damage::bed::%arg-1%} to "true"
+						stop
+					else if arg-4 is "false":
+						message "{@prefix} 침대의 폭발로 인한 피격을 방지합니다."
+						set {region::damage::bed::%arg-1%} to "false"
+						stop
+					else:
+						message "{@prefix} 현재 침대의 폭발로 인한 피격은 %{region::damage::bed::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "creeper":
+					if arg-4 is "true":
+						message "{@prefix} 크리퍼의 폭발로 인한 피격을 허용합니다."
+						set {region::damage::creeper::%arg-1%} to "true"
+						stop
+					else if arg-4 is "false":
+						message "{@prefix} 크리퍼의 폭발로 인한 피격을 방지합니다."
+						set {region::damage::creeper::%arg-1%} to "false"
+						stop
+					else:
+						message "{@prefix} 현재 크리퍼의 폭발로 인한 피격은 %{region::damage::creeper::%arg-1%}%로 설정되어 있습니다."
+
+				else if arg-3 is "wither_skull":
+					if arg-4 is "true":
+						message "{@prefix} 위더 머리의 폭발로 인한 피격을 허용합니다."
+						set {region::damage::wither_skull::%arg-1%} to "true"
+						stop
+					else if arg-4 is "false":
+						message "{@prefix} 위더 머리의 폭발로 인한 피격을 방지합니다."
+						set {region::damage::wither_skull::%arg-1%} to "false"
+						stop
+					else:
+						message "{@prefix} 현재 위더 머리의 폭발로 인한 피격은 %{region::damage::wither_skull::%arg-1%}%로 설정되어 있습니다."
+
+				else:
+					message "{@prefix} 알 수 없는 엔티티입니다."
+
+			else if arg-1 is "pvp":
+				if arg-3 is "true":
+					message "{@prefix} 플레이어 간의 공격을 허용합니다."
+					set {region::pvp::%arg-1%} to "true"
+					stop
+				else if arg-3 is "false":
+					message "{@prefix} 플레이어 간의 공격을 방지합니다."
+					set {region::pvp::%arg-1%} to "false"
+					stop
+				else:
+					message "{@prefix} 플레이어 간의 공격은 현재 %{region::pvp::%arg-1%}% 상태입니다."
+
+			else if arg-1 is "shoot":
+				if arg-3 is "arrow":
+					if arg-4 is "false":
+						message "{@prefix} 활 쏘는 것을 막습니다."
+						set {region::shoot::arrow::%arg-1%} to "false"
+						stop
+					else if arg-4 is "true":
+						message "{@prefix} 활 쏘는 것을 허용합니다."
+						set {region::shoot::arrow::%arg-1%} to "true"
+						stop
+					else:
+						message "{@prefix} 현재 활 쏘는 것에 대한 설정은 %{region::shoot::arrow::%arg-1%}%입니다."
+
+				else if arg-3 is "fire_charge":
+					if arg-4 is "false":
+						message "{@prefix} 화염구를 던지는 것을 막습니다."
+						set {region::shoot::fire_charge::%arg-1%} to "false"
+						stop
+					else if arg-4 is "true":
+						message "{@prefix} 화염구를 던지는 것을 허용합니다"
+						set {region::shoot::fire_charge::%arg-1%} to "true"
+						stop
+					else:
+						message "{@prefix} 현재 화염구를 던지는 것에 대한 설정은 %{region::shoot::fire_charge::%arg-1%}%입니다."
+
+				else if arg-3 is "snowball":
+					if arg-4 is "false":
+						message "{@prefix} 눈덩이의 투척을 방지합니다."
+						set {region::shoot::snowball::%arg-1%} to "false"
+						stop
+					else if arg-4 is "true":
+						message "{@prefix} 눈덩이의 투척을 허용합니다."
+						set {region::shoot::snowball::%arg-1%} to "true"
+						stop
+					else:
+						message "{@prefix} 현재 눈덩이를 던지는 것에 대한 설정은 %{region::shoot::snowball::%arg-1%}%입니다."
+
+				else if arg-3 is "splash_potion":
+					if arg-4 is "false":
+						message "{@prefix} 투척용 물약의 사용을 방지합니다."
+						set {region::shoot::splash_potion::%arg-1%} to "false"
+						stop
+					else if arg-4 is "true":
+						message "{@prefix} 투척용 물약의 사용을 허용합니다."
+						set {region::shoot::splash_potion::%arg-1%} to "true"
+						stop
+					else:
+						message "{@prefix} 현재 투척용 물약의 사용에 대한 설정은 %{region::shoot::splash_potion::%arg-1%}%입니다."
+
+				else if arg-3 is "lingering_potion":
+					if arg-4 is "false":
+						message "{@prefix} 잔류형 물약의 사용을 방지합니다."
+						set {region::shoot::lingering_potion::%arg-1%} to "false"
+						stop
+					else if arg-4 is "true":
+						message "{@prefix} 잔류형 물약의 사용을 허용합니다."
+						set {region::shoot::lingering_potion::%arg-1%} to "true"
+						stop
+					else:
+						message "{@prefix} 현재 잔류형 물약의 사용에 대한 설정은 %{region::shoot::lingering_potion::%arg-1%}%입니다."
+
+on shoot:
+	set {_world} to world of event-location
+	set {_loc} to event-location
+	set {_result} to findregion({_world}, {_loc})
+	if {_result} is "-1":
+		if shooter is player:
+			if {global::shoot::%projectile%} is "false":
+				cancel event
+	else:
+		if {region::shoot::%projectile%::%{_result}%} is "false":
+			cancel event
+
+on explode:
+	send "%event-entity%%{global::explode::%event-entity%}%" to players
+	set {_world} to world of event-location
+	set {_loc} to event-location
+	set {_result} to findregion({_world}, {_loc})
+	if {_result} is "-1":
+		if event-entity is TNT:
+			if {global::explode::TNT} is "false":
+				create a safe explosion of force 4 at event-entity
+				kill event-entity
+		else if {global::explode::%event-entity%} is "false":
+			if {global::damage::%event-entity%} is "true":
+				create a safe explosion of force 4 at event-entity
+				kill event-entity
+			else:
+				cancel event
+				kill event-entity
+
+	else:
+		if {region::explode::%event-entity%::%{_result}%} is "false":
+			cancel event
+
+on bed enter:
+	set {_world} to world of event-location
+	set {_loc} to event-location
+	set {_result} to findregion({_world}, {_loc})
+	if event-world is not "world":
+		if {_result} is "-1":
+			if {global::explode::bed} is "false":
+				cancel event
+		else if {region::explode::bed::%{_result}%} is "false":
+			cancel event
+
+on spawn:
+	set {_ent} to entity
+	set {_world} to world of event-location
+	set {_loc} to event-location
+	set {_result} to findregion({_world}, {_loc})
+	if {_result} is "-1":
+		if {global::spawn::%{_ent}%} is "false":
+			send "%event-entity%-1" to console
+			cancel event
+	else if {region::spawn::%event-entity%::%{_result}%} is "false":
+		cancel event
+
+#on damage of a player:
+
+function findregion(w:world, loc:location) :: text:
+	set {_x} to x coord of {_loc}
+	set {_y} to y coord of {_loc}
+	set {_z} to z coord of {_loc}
+	loop {region::world::*}:
+		if {_w} is loop-value:
+			add loop-index to {_region::*}
+
+	if {_region::*} is set:
+		loop {_region::*}:
+			if {_x} >= {region::x1::%loop-value%}:
+				add loop-value to {_region2::*}
+		clear {_region::*}
+
+		if {_region2::*} is set:
+			loop {_region2::*}:
+				if {_x} <= {region::x2::%loop-value%}:
+					add loop-value to {_region::*}
+			clear {_region2::*}
+
+			if {_region::*} is set:
+				loop {_region::*}:
+					if {_y} >= {region::y1::%loop-value%}:
+						add loop-value to {_region2::*}
+				clear {_region::*}
+
+				if {_region2::*} is set:
+					loop {_region2::*}:
+						if {_y} <= {region::y2::%loop-value%}:
+							add loop-value to {_region::*}
+					clear {_region2::*}
+
+					if {_region::*} is set:
+						loop {_region::*}:
+							if {_z} >= {region::z1::%loop-value%}:
+								add loop-value to {_region2::*}
+						clear {_region::*}
+
+						if {_region2::*} is set:
+							loop {_region2::*}:
+								if {_z} <= {region::z2::%loop-value%}:
+									add loop-value to {_region::*}
+							clear {_region2::*}
+
+							if {_region::*} is set:
+								return {_region::1}
+							else:
+								return "-1"
+						else:
+							return "-1"
+					else:
+						return "-1"
+				else:
+					return "-1"
+			else:
+				return "-1"
+		else:
+			return "-1"
+	else:
+		return "-1"
